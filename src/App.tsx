@@ -114,8 +114,8 @@ export function App() {
   return (
     <>
       <Header selectedMenuId={selectedMenuId} menus={menus} handleClickButton={handleClickButton} />
-      <ToastContainer autoClose={3000} />
       <Dashboard listType={selectedMenuId} />
+      <ToastContainer autoClose={3000} />
       <GlobalStyle />
     </>
   );

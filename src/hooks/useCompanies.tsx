@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { api } from '../services/api'
 import { Company, CompanyInput } from '../types/Company'
 
@@ -25,6 +26,12 @@ export const CompaniesProvider = ({ children }: CompaniesProviderProps) => {
     }
 
     const createCompany = async (companyInput: CompanyInput) => {
+
+        if (!(companyInput.cnpj || companyInput.fantasyName || companyInput.uf)) {
+            toast.error('Necessário preencher todos os dados.');
+            return;
+        }
+
         const result = await api.post('/companies', { ...companyInput, createdAt: new Date() });
         const { company } = result.data;
         setCompanies([...companies, company]);

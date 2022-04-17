@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { api } from '../services/api'
 import { Supplier, SupplierInput } from '../types/Supplier'
 
@@ -26,6 +27,12 @@ export const SuppliersProvider = ({ children }: SuppliersProviderProps) => {
     }
 
     const createSupplier = async (supplierInput: SupplierInput) => {
+
+        if (!(supplierInput.name || supplierInput.phone || supplierInput.document)) {
+            toast.error('Necessário preencher todos os dados.');
+            return;
+        }
+
         const result = await api.post('/suppliers', { ...supplierInput, createdAt: new Date() });
         const { supplier } = result.data;
         setSuppliers([...suppliers, supplier]);
